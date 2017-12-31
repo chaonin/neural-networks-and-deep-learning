@@ -34,6 +34,9 @@ class Network(object):
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
         self.weights = [np.random.randn(y, x)
                         for x, y in zip(sizes[:-1], sizes[1:])]
+        #print len(self.biases[0]),self.biases[0][0]
+        #print self.biases
+        #print "*******chaonin:_init_:done********"
 
     def feedforward(self, a):
         """Return the output of the network if ``a`` is input."""
@@ -58,7 +61,9 @@ class Network(object):
             mini_batches = [
                 training_data[k:k+mini_batch_size]
                 for k in xrange(0, n, mini_batch_size)]
+            #print "mini_batches size:",len(mini_batches)
             for mini_batch in mini_batches:
+                #print len(mini_batch)
                 self.update_mini_batch(mini_batch, eta)
             if test_data:
                 print "Epoch {0}: {1} / {2}".format(
@@ -81,6 +86,8 @@ class Network(object):
                         for w, nw in zip(self.weights, nabla_w)]
         self.biases = [b-(eta/len(mini_batch))*nb
                        for b, nb in zip(self.biases, nabla_b)]
+        #print self.biases
+        #print "*******chaonin:_update_mini_batch_:return********"
 
     def backprop(self, x, y):
         """Return a tuple ``(nabla_b, nabla_w)`` representing the
@@ -115,6 +122,7 @@ class Network(object):
             delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
             nabla_b[-l] = delta
             nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
+        #print "*******chaonin:_backprop:return********"
         return (nabla_b, nabla_w)
 
     def evaluate(self, test_data):
